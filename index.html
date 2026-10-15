@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Encoder 4 a 2 Interactivo</title>
+<style>
+  body { font-family: Arial; background:#1e1e2f; color:#fff;
+         text-align:center; padding:30px; }
+  h1 { color:#61dafb; }
+  .panel { background:#2c2c44; padding:20px; border-radius:12px;
+           display:inline-block; margin-top:20px; }
+  .inputs label { display:block; margin:8px; font-size:18px; }
+  .out { margin-top:20px; font-size:22px; }
+  .bit { display:inline-block; width:40px; height:40px; line-height:40px;
+         border-radius:8px; background:#444; margin:4px; font-weight:bold; }
+  .on { background:#4CAF50; }
+</style>
+</head>
+<body>
+  <h1>🔢 Encoder 4 a 2 Interactivo</h1>
+  <p>Activá una entrada y mirá cómo se codifica en binario</p>
+
+  <div class="panel">
+    <div class="inputs">
+      <label><input type="checkbox" id="i0" onchange="calc()"> Entrada D0</label>
+      <label><input type="checkbox" id="i1" onchange="calc()"> Entrada D1</label>
+      <label><input type="checkbox" id="i2" onchange="calc()"> Entrada D2</label>
+      <label><input type="checkbox" id="i3" onchange="calc()"> Entrada D3</label>
+    </div>
+    <div class="out">
+      Salidas: 
+      <span class="bit" id="y1">0</span>
+      <span class="bit" id="y0">0</span>
+    </div>
+  </div>
+
+<script>
+function calc() {
+  const i0 = +document.getElementById('i0').checked;
+  const i1 = +document.getElementById('i1').checked;
+  const i2 = +document.getElementById('i2').checked;
+  const i3 = +document.getElementById('i3').checked;
+
+  // Priority encoder: mayor índice gana
+  let y1 = 0, y0 = 0;
+  if (i3) { y1=1; y0=1; }
+  else if (i2) { y1=1; y0=0; }
+  else if (i1) { y1=0; y0=1; }
+  else if (i0) { y1=0; y0=0; }
+  else { y1=0; y0=0; }
+
+  const e1 = document.getElementById('y1');
+  const e0 = document.getElementById('y0');
+  e1.textContent = y1; e1.className = 'bit ' + (y1?'on':'');
+  e0.textContent = y0; e0.className = 'bit ' + (y0?'on':'');
+}
+</script>
+</body>
+</html>
